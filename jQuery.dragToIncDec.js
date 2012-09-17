@@ -45,9 +45,9 @@
 
             $(document).on("mousemove", function(event) {
 
-                if (dragging) {
+                if (dragging && ! (event.pageX % 2)) {
 
-                    tmp = value + (event.pageX - start) * step;
+                    tmp = value + Math.ceil((event.pageX - start) / 2) * step;
                     tmp = tmp > max ? max : tmp;
                     tmp = tmp < min ? min : tmp;
 

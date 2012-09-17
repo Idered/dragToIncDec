@@ -122,10 +122,17 @@ button.btn.small,input[type="submit"].btn.small{*padding-top:3px;*padding-bottom
 .label-success:hover{background-color:#356635;}
 .label-info{background-color:#3a87ad;}
 .label-info:hover{background-color:#2d6987;}
-
+.hero-unit h1 {margin: 0;}
 
 body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 1;
     background-color: #eee;
+}
+
+h1, h2, h3,
+h4, h5, h6 {
+	margin: 0.8em 0;
 }
 
 #main {
