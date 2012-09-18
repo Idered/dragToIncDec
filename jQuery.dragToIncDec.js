@@ -1,5 +1,5 @@
 /**
- * dragToIncDec v1.0.0
+ * dragToIncDec v1.0.1
  * http://demo.idered.pl/jQuery.dragToIncDec
  *
  * Copyright 2012, Kasper Mikiewicz
@@ -37,13 +37,13 @@
 
             });
 
-            $(document).on("mouseup", function (event) {
+            $(document.body).on("mouseup", function (event) {
 
                 dragging = false;
 
             });
 
-            $(document).on("mousemove", function(event) {
+            $(document.body).on("mousemove", function(event) {
 
                 if (dragging && ! (event.pageX % 2)) {
 
