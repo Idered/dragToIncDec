@@ -1,5 +1,5 @@
 /**
- * dragToIncDec v1.0.1
+ * dragToIncDec v1.0.2
  * http://demo.idered.pl/jQuery.dragToIncDec
  *
  * Copyright 2012, Kasper Mikiewicz
@@ -10,7 +10,8 @@
 
     $.fn.dragToIncDec = function() {
 
-        var cursor = 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAN5JREFUeNrMUjEOgzAMpFWnDAysKEM2Vl7QPiETa/uqdO0WgRjyB37ETGTiiKSBBCTUpZbMyeezZZtcACD7xa4HOWEcNhgbTrDjUNc1hJjSHU2QTdO0wrMrnG4Q7brTYK1bdhF93wNjLNzVxyke9ViHxLPrOqCUWh/H0YltHCIa5p0W625miFfbtpnW2k5UVVW0J+bKsox4rMMGn6ZpHsMwWFIp5QWcc3+DFG/qvjeQUkJRFG7SO35cnOJR727gmywi4Y6V5zmEmNIdvkRCCIT4/y9xa+/l13pMiWYBBgD2gmfsIU/6oAAAAABJRU5ErkJggg%3D%3D), auto';
+        var cursor = 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAN5JREFUeNrMUjEOgzAMpFWnDAysKEM2Vl7QPiETa/uqdO0WgRjyB37ETGTiiKSBBCTUpZbMyeezZZtcACD7xa4HOWEcNhgbTrDjUNc1hJjSHU2QTdO0wrMrnG4Q7brTYK1bdhF93wNjLNzVxyke9ViHxLPrOqCUWh/H0YltHCIa5p0W625miFfbtpnW2k5UVVW0J+bKsox4rMMGn6ZpHsMwWFIp5QWcc3+DFG/qvjeQUkJRFG7SO35cnOJR727gmywi4Y6V5zmEmNIdvkRCCIT4/y9xa+/l13pMiWYBBgD2gmfsIU/6oAAAAABJRU5ErkJggg%3D%3D), auto',
+            isTouchDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
 
         return this.each(function() {
 
@@ -23,38 +24,37 @@
 
             $label.on('hover', function(event) {
 
-                $(this).css('cursor', event.type == "mouseenter" ? cursor : '');
+                $(this).css('cursor', event.type == 'mouseenter' ? cursor : '');
 
-            }).on("mousedown", function (event) {
+            }).on(isTouchDevice ? 'touchstart' : 'mousedown', function (event) {
 
                 if (event.originalEvent.preventDefault) event.originalEvent.preventDefault();
 
                 dragging = true;
 
-                start = event.pageX;
+                start = isTouchDevice ? event.originalEvent.touches[0].pageX : event.pageX;
 
                 value = parseInt($input.val(), 10);
 
             });
 
-            $(document.body).on("mouseup", function (event) {
+            $(document.body).on(isTouchDevice ? 'touchend' : 'mouseup', function (event) {
 
                 dragging = false;
 
             });
 
-            $(document.body).on("mousemove", function(event) {
+            $(document.body).on(isTouchDevice ? 'touchmove' : 'mousemove', function(event) {
 
-                if (dragging && ! (event.pageX % 2)) {
+                if (dragging && ! ((isTouchDevice ? event.originalEvent.touches[0].pageX : event.pageX) % 2)) {
 
-                    tmp = value + Math.ceil((event.pageX - start) / 2) * step;
+                    tmp = value + Math.ceil(((isTouchDevice ? event.originalEvent.touches[0].pageX : event.pageX) - start) / 2) * step;
                     tmp = tmp > max ? max : tmp;
                     tmp = tmp < min ? min : tmp;
 
                     $input.val(tmp);
 
                 }
-
             });
 
         });
